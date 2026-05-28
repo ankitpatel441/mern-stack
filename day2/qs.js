@@ -1,3 +1,4 @@
+//Practice Qs
 // //Qs. Create a traffic light system that shows what to do based on color.
 // let color ="yellow";
 
@@ -13,6 +14,7 @@
 //     console.log("go")
 // }
 
+//Practice Qs
 //Qs. Create a system to calculate popcorn prices based on the size customer asked for :
 
 // let size = 'XL'
@@ -27,6 +29,7 @@
 //     console.log("price is Rs. 50")
 // }
 
+//Practice Qs
 //Qs. A "good string" is a string that starts with the letter 'a' & has a length > 3. Write a Program to find if a string is good or not.
 // let str = "nak";
 
@@ -36,6 +39,8 @@
 //     console.log("not good string")
 // }
 
+
+//Practice Qs
 //Qs. Predict the output of following code :
 
 // let num = 12;
@@ -46,6 +51,7 @@
 // console. log("unsafe");
 // }
 
+//Practice Qs
 //Qs. Use switch statement to print the day of the week using a number variable 'day' with values 1 to 7.
 //1 = Monday, 2 = Tuesday & so on
 
