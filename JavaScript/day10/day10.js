@@ -69,17 +69,100 @@
 // }
 
 //this evrnt listeners
-let btn = document.querySelector("button");
-let h1 = document.querySelector("h1");
-let h3 = document.querySelector("h3");
+// let btn = document.querySelector("button");
+// let h1 = document.querySelector("h1");
+// let h3 = document.querySelector("h3");
+// let p = document.querySelector("p");
+
+// function changeColor() {
+//    console.dir(this);
+//    this.style.backgroundColor = "blue";
+// }
+
+// btn.addEventListener("click", changeColor);
+// h1.addEventListener("click", changeColor);
+// h3.addEventListener("click", changeColor);
+// p.addEventListener("click", changeColor);
+
+// keyboard events
+// let input = document.querySelector("input");
+
+// input.addEventListener("keyup", function(event) {
+//    console.log(event.key);// event key
+//    console.log(event.code); // event code
+//    console.log("key was releaased");
+//    // console.log("key was pressed");
+// });
+
+// let input = document.querySelector("input");
+
+// input.addEventListener("keydown", function(event) {
+//    // console.log("code =", event.code);
+
+//    if (event.code === "KeyW") {
+//       console.log("character move up");
+//    } else if (event.code === "KeyS") {
+//       console.log("character move down");
+//    } else if (event.code === "KeyA") {
+//       console.log("character move left");
+//    } else if (event.code === "KeyD") {
+//       console.log("character move right");
+//    }
+// });
+
+//form events
+// let form = document.querySelector("form");
+
+// form.addEventListener("submit", function() {
+//    event.preventDefault();
+//    alert("form submitted")
+// })
+
+// exrating form data
+// let form = document.querySelector("form");
+
+// form.addEventListener("submit", function(event) {
+//     event.preventDefault();
+
+//    //  using this
+//    //  let user = this.elements[0];
+//    //  let pass = this.elements[1];
+
+//    // using id
+//    let user = document.querySelector("#user");
+//    let pass = document.querySelector("#pass");
+
+//     console.log(user.value);
+//     console.log(pass.value);
+
+//     alert(`Hi ${user.value}, your password is set to ${pass.value}`);
+// });
+
+
+// //more events
+// //change/input event
+// let form = document.querySelector("form");
+
+// form.addEventListener("submit", function(event) {
+//    event.preventDefault();   
+// });
+
+//    let user = document.querySelector("#user");
+
+//    user.addEventListener("change", function() {
+//       console.log("change event");
+//       console.log("final value = ", this.value);
+//    })
+
+//    user.addEventListener("change", function() {
+//       console.log("input event");
+//       console.log("final value = ", this.value);
+//    })
+
+let inp = document.querySelector("input");
 let p = document.querySelector("p");
 
-function changeColor() {
-   console.dir(this);
-   this.style.backgroundColor = "blue";
-}
-
-btn.addEventListener("click", changeColor);
-h1.addEventListener("click", changeColor);
-h3.addEventListener("click", changeColor);
-p.addEventListener("click", changeColor);
+inp.addEventListener("input", function() {
+    console.log(inp.value);
+    p.innerText = inp.value;
+});
