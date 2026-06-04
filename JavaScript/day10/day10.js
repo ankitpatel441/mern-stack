@@ -158,7 +158,7 @@
 //       console.log("input event");
 //       console.log("final value = ", this.value);
 //    })
-
+    
 let inp = document.querySelector("input");
 let p = document.querySelector("p");
 
