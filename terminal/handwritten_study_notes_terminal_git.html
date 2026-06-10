@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminal & Git Commands - Study Notes</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Organic Handwriting & Marker Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Caveat:wght@400;700&family=Kalam:wght@300;400;700&family=Patrick+Hand&family=Delius&display=swap" rel="stylesheet">
+
+  <style>
+    /* Premium Handwriting Font mappings */
+    .font-hand-body {
+      font-family: 'Caveat', cursive;
+    }
+    .font-hand-marker {
+      font-family: 'Architects Daughter', cursive;
+    }
+    .font-hand-code {
+      font-family: 'Delius', cursive;
+    }
+    .font-hand-accent {
+      font-family: 'Kalam', cursive;
+    }
+
+    /* Hand-Drawn Wobbly Borders & Notebook aesthetics */
+    .sketch-border {
+      border: 3px solid currentColor;
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    }
+    .sketch-border-thin {
+      border: 1.5px solid currentColor;
+      border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+    }
+    
+    /* Notebook Ring Bindings simulation */
+    .spiral-ring {
+      background: linear-gradient(90deg, #94a3b8 0%, #cbd5e1 50%, #64748b 100%);
+      border-radius: 4px;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    }
+
+    /* Custom Highlight Styles */
+    .hand-highlighter {
+      background: linear-gradient(104deg, rgba(254, 240, 138, 0.75) 0%, rgba(254, 240, 138, 0.9) 70%, rgba(254, 240, 138, 0.55) 100%);
+      border-radius: 3px 12px 6px 14px;
+      padding: 0 4px;
+      display: inline-block;
+    }
+
+    .hand-highlighter-pink {
+      background: linear-gradient(104deg, rgba(24bc, 186, 211, 0.45) 0%, rgba(244, 143, 177, 0.6) 70%, rgba(244, 143, 17 pink, 0.35) 100%);
+      border-radius: 4px 10px 8px 12px;
+      padding: 0 4px;
+      display: inline;
+    }
+
+    /* Standard Notebook Paper Rules */
+    .ruled-paper {
+      background-color: #fdfcf7;
+      background-image: 
+        linear-gradient(90deg, transparent 79px, #f87171 79px, #f87171 81px, transparent 81px), /* Vertical red margin */
+        linear-gradient(#e2e8f0 1px, transparent 1px); /* Horizontal lines */
+      background-size: 100% 100%, 100% 1.85rem;
+      background-position: 0 0, 0 0.5rem;
+    }
+
+    /* Grid Paper Theme option */
+    .grid-paper {
+      background-color: #fcfbf6;
+      background-image: 
+        linear-gradient(90deg, rgba(148, 163, 184, 0.15) 1px, transparent 1px),
+        linear-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 1px);
+      background-size: 1.5rem 1.5rem;
+    }
+
+    /* Blank Artist Paper Theme option */
+    .blank-paper {
+      background-color: #fbfaf5;
+    }
+
+    /* Coffee Stain Graphic Overlay */
+    .coffee-stain {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 100 100' opacity='0.08'%3E%3Cpath d='M30,30 C50,20 80,40 70,60 C60,80 30,70 30,50 C30,30 40,25 30,30 Z' fill='none' stroke='%23854d0e' stroke-width='4' stroke-dasharray='120 10 40'/%3E%3Cpath d='M35,35 C45,28 75,45 65,65 C55,75 35,65 35,50' fill='none' stroke='%23854d0e' stroke-width='1.5'/%3E%3C/svg%3E");
+    }
+
+    /* Active Recall Scribble cover style */
+    .recall-hidden {
+      position: relative;
+      color: transparent !important;
+      background-color: #1e293b !important;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .recall-hidden::after {
+      content: "✏️ Tap to reveal";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-family: sans-serif;
+    }
+    .recall-revealed {
+      color: inherit !important;
+      background-color: transparent !important;
+    }
+    .recall-revealed::after {
+      display: none !important;
+    }
+
+    /* Smooth page transitioning */
+    .page-turn-active {
+      transition: transform 0.5s ease-in-out;
+    }
+
+    /* Scrollbar Styling to match natural paper feel */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Doodle canvas controls */
+    .doodle-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 40;
+      pointer-events: none; /* Off by default */
+    }
+    .doodle-canvas.active {
+      pointer-events: auto;
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body class="bg-stone-200 min-h-screen flex flex-col justify-between text-slate-800 transition-colors duration-300">
+
+  <!-- TOP DECK: NAVIGATION & SETTINGS BAR -->
+  <header class="bg-stone-800 text-white shadow-md py-3 px-4 md:px-6 flex flex-wrap gap-3 items-center justify-between z-50">
+    <div class="flex items-center gap-3">
+      <span class="text-2xl">📓</span>
+      <div>
+        <h1 class="text-lg font-bold font-hand-marker tracking-wide text-amber-300">NeatNotes v2.5</h1>
+        <p class="text-xs text-stone-400 font-sans">Terminal, Git & GitHub Interactive Topper Reference</p>
+      </div>
+    </div>
+
+    <!-- Live Controls Panel -->
+    <div class="flex flex-wrap items-center gap-2 md:gap-4 text-xs">
+      
+      <!-- Theme Selection -->
+      <div class="flex items-center gap-1.5 bg-stone-700 px-2.5 py-1 rounded-md">
+        <span>📄 Paper:</span>
+        <select id="paperSelector" class="bg-stone-800 border border-stone-600 rounded text-amber-300 px-1 py-0.5 focus:outline-none">
+          <option value="ruled-paper">Ruled Notebook</option>
+          <option value="grid-paper">Science Grid</option>
+          <option value="blank-paper">Plain Sketchbook</option>
+        </select>
+      </div>
+
+      <!-- Ink Selector -->
+      <div class="flex items-center gap-1.5 bg-stone-700 px-2.5 py-1 rounded-md">
+        <span>✒️ Pen:</span>
+        <button onclick="changeInk('#1d4ed8')" class="w-4 h-4 rounded-full bg-blue-600 border border-white focus:ring-2 focus:ring-amber-300" title="Blue Gel"></button>
+        <button onclick="changeInk('#0f172a')" class="w-4 h-4 rounded-full bg-slate-900 border border-white focus:ring-2 focus:ring-amber-300" title="Dark Ink"></button>
+        <button onclick="changeInk('#6b21a8')" class="w-4 h-4 rounded-full bg-purple-700 border border-white focus:ring-2 focus:ring-amber-300" title="Study Purple"></button>
+      </div>
+
+      <!-- Toggle Doodle Pad -->
+      <button id="doodleToggle" class="bg-stone-700 hover:bg-stone-600 px-3 py-1 rounded-md flex items-center gap-1.5 transition">
+        <span>✏️ Draw Tool:</span>
+        <span id="doodleStatus" class="text-red-400 font-bold uppercase">OFF</span>
+      </button>
+
+      <!-- Toggle Active Recall Quiz -->
+      <button onclick="toggleActiveRecall()" class="bg-amber-600 hover:bg-amber-500 text-stone-900 font-bold px-3 py-1 rounded-md flex items-center gap-1 transition">
+        💡 <span>Active Recall Quiz</span>
+      </button>
+
+      <!-- Clear Canvas -->
+      <button onclick="clearCurrentDoodle()" class="bg-stone-600 hover:bg-stone-500 px-2 py-1 rounded" title="Wipe off drawings">
+        🗑️ Clear Skribbles
+      </button>
+
+      <!-- Audio Mute -->
+      <button onclick="toggleAudio()" id="audioToggleBtn" class="text-lg bg-stone-700 p-1 rounded hover:bg-stone-600" title="Page Flip Sound Effect">
+        🔊
+      </button>
+    </div>
+  </header>
+
+  <!-- WORKSPACE: SPIRAL NOTEBOOK CONTAINER -->
+  <main class="flex-grow p-2 md:p-6 flex items-center justify-center relative overflow-hidden">
+    
+    <!-- Left Hand Margin / Quick Index Floating Note -->
+    <div class="hidden xl:flex flex-col gap-4 absolute left-4 top-12 w-52 bg-amber-50 border-2 border-amber-200 p-4 rounded-lg shadow-md rotate-[-2deg] font-hand-body z-10">
+      <div class="w-full flex justify-between items-center border-b border-amber-200 pb-1">
+        <span class="font-hand-accent text-sm text-red-500 font-bold">🎯 TOPPER'S INDEX</span>
+        <span>📌</span>
+      </div>
+      <ul class="text-base text-blue-900 space-y-1.5 list-none pl-1">
+        <li><a href="#" onclick="goToPage(0)" class="hover:underline">📓 Cover Label</a></li>
+        <li><a href="#" onclick="goToPage(1)" class="hover:underline">1. Interview Prep: Definitions</a></li>
+        <li><a href="#" onclick="goToPage(2)" class="hover:underline">2. Git Concepts vs Github</a></li>
+        <li><a href="#" onclick="goToPage(3)" class="hover:underline">3. Visual Git Workflow</a></li>
+        <li><a href="#" onclick="goToPage(4)" class="hover:underline">4. Terminal: Basics & Files</a></li>
+        <li><a href="#" onclick="goToPage(5)" class="hover:underline">5. Systems & Text Processing</a></li>
+        <li><a href="#" onclick="goToPage(6)" class="hover:underline">6. Git Config & Commits</a></li>
+        <li><a href="#" onclick="goToPage(7)" class="hover:underline">7. Branching & Merging</a></li>
+        <li><a href="#" onclick="goToPage(8)" class="hover:underline">8. Remotes & Undoing</a></li>
+        <li><a href="#" onclick="goToPage(9)" class="hover:underline">9. Workflows & Recipes</a></li>
+        <li><a href="#" onclick="goToPage(10)" class="hover:underline">10. Quick Reference Sheet</a></li>
+      </ul>
+      <div class="text-xs text-amber-700 italic border-t border-amber-200 pt-2">
+        ✏️ Use the Draw Tool above to draw on any page!
+      </div>
+    </div>
+
+    <!-- BOOK MAIN BODY -->
+    <div class="w-full max-w-6xl bg-stone-900/5 p-2 rounded-2xl flex flex-col md:flex-row relative">
+      
+      <!-- BINDER INNER FRAME (holds Left/Right Pages and Spiral Bindings) -->
+      <div class="w-full grid grid-cols-1 md:grid-cols-2 bg-[#dfdbd1] rounded-xl shadow-2xl overflow-hidden relative border-4 border-amber-900/10 min-h-[720px] md:min-h-[780px]">
+        
+        <!-- ==================== LEFT PAGE ==================== -->
+        <section id="leftPage" class="ruled-paper p-4 md:p-8 pt-12 md:pt-14 relative flex flex-col justify-between border-b md:border-b-0 md:border-r border-stone-300">
+          <!-- Canvas Overlay for doodling on left page -->
+          <canvas id="doodleCanvasLeft" class="doodle-canvas"></canvas>
+          
+          <div class="coffee-stain absolute inset-0 pointer-events-none z-0"></div>
+          
+          <!-- Spiral Binding Hole simulations along the inner right border of left page -->
+          <div class="hidden md:flex flex-col justify-around absolute right-[-10px] top-4 bottom-4 w-5 z-40">
+            <template id="bindingHoleTemplate">
+              <div class="flex items-center">
+                <div class="w-4 h-4 rounded-full bg-stone-800 shadow-inner"></div>
+                <div class="w-7 h-3 spiral-ring ml-[-4px]"></div>
+              </div>
+            </template>
+          </div>
+
+          <!-- Page Content Container -->
+          <div id="leftContent" class="z-10 font-hand-body text-xl transition-all duration-300">
+            <!-- Dynamic Content Injected Here -->
+          </div>
+
+          <!-- Margin Footnotes / Stickers -->
+          <div id="leftFooter" class="z-10 flex justify-between items-center text-xs text-stone-500 font-sans mt-4 border-t border-stone-200 pt-2">
+            <span id="leftPageNum" class="font-bold">Page 1</span>
+            <span class="italic text-[10px]">Notebook Ver 2026.1</span>
+          </div>
+        </section>
+
+        <!-- ==================== RIGHT PAGE ==================== -->
+        <section id="rightPage" class="ruled-paper p-4 md:p-8 pt-12 md:pt-14 relative flex flex-col justify-between">
+          <!-- Canvas Overlay for doodling on right page -->
+          <canvas id="doodleCanvasRight" class="doodle-canvas"></canvas>
+          
+          <div class="coffee-stain absolute inset-0 pointer-events-none z-0"></div>
+
+          <!-- Spiral Binding Hole simulations along the inner left border of right page -->
+          <div class="hidden md:flex flex-col justify-around absolute left-[-10px] top-4 bottom-4 w-5 z-40">
+            <!-- Stencil target matches bindings -->
+          </div>
+
+          <!-- Page Content Container -->
+          <div id="rightContent" class="z-10 font-hand-body text-xl transition-all duration-300">
+            <!-- Dynamic Content Injected Here -->
+          </div>
+
+          <!-- Margin Footnotes / Stickers -->
+          <div id="rightFooter" class="z-10 flex justify-between items-center text-xs text-stone-500 font-sans mt-4 border-t border-stone-200 pt-2">
+            <span class="italic text-[10px]">★ Focus & Practice Everyday ★</span>
+            <span id="rightPageNum" class="font-bold">Page 2</span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- BOTTOM DECK: CONTROLS & PAGINATION -->
+  <footer class="bg-stone-800 text-white py-3 px-4 flex flex-col sm:flex-row gap-4 items-center justify-between z-50">
+    <div class="flex items-center gap-2">
+      <button onclick="prevPage()" class="bg-amber-500 hover:bg-amber-400 text-stone-900 font-bold px-4 py-2 rounded-lg shadow transition flex items-center gap-1 text-sm">
+        ◀ <span>Flip Back</span>
+      </button>
+      <span class="text-sm font-hand-accent text-amber-300 text-center px-2 min-w-28" id="pageIndicator">Pages 1-2 / 12</span>
+      <button onclick="nextPage()" class="bg-amber-500 hover:bg-amber-400 text-stone-900 font-bold px-4 py-2 rounded-lg shadow transition flex items-center gap-1 text-sm">
+        <span>Flip Next</span> ▶
+      </button>
+    </div>
+
+    <!-- Active Study Tips Bar -->
+    <div class="hidden md:flex items-center gap-2 max-w-lg bg-stone-700/50 p-2 rounded-lg border border-stone-600 text-xs text-stone-300">
+      <span class="text-amber-300 font-bold font-hand-accent">🎓 High-Scorer Strategy:</span>
+      <span class="font-sans leading-relaxed">Turn on the "Active Recall" mode to scribble out critical commands. Hover your cursor over them to reveal. Best way to prep for terminal and git interview questions!</span>
+    </div>
+    
+    <div class="text-xs text-stone-400 font-sans">
+      Interactive Canvas App © 2026
+    </div>
+  </footer>
+
+  <!-- ==================== NOTEBOOK CONTENT DATABASE ==================== -->
+  <script>
+    // System Config & Global Variables
+    let currentSpread = 0; // Represents the left-right spread indices. e.g. 0 = Cover/Blank, 1 = Pages 1&2, etc.
+    let penColor = '#1d4ed8'; // Default blue gel ink
+    let isDoodleMode = false;
+    let isRecallActive = false;
+    let audioMuted = false;
+
+    // Doodle Canvas state
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let currentLeftCanvas, currentRightCanvas;
+    let currentLeftCtx, currentRightCtx;
+    // Store canvas drawing histories dynamically by page spread
+    const canvasHistories = {}; 
+
+    // Sound Synthesizer via Web Audio API (Generates white-noise rustling sound)
+    function playPaperTurnSound() {
+      if (audioMuted) return;
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        const bufferSize = ctx.sampleRate * 0.3; // 0.3 seconds duration
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        
+        // Fill buffer with organic sound noise
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+
+        // Bandpass filter to match real physical page friction frequency
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(800, ctx.currentTime);
+        filter.Q.setValueAtTime(1.5, ctx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.28);
+
+        // Gentle volume fade-out envelope
+        const gainNode = ctx.createGain();
+        gainNode.gain.setValueAtTime(0.08, ctx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.28);
+
+        source.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        source.start();
+      } catch (e) {
+        console.warn("Audio synthesizer blocked/unavailable: ", e);
+      }
+    }
+
+    // Toggle Audio Mute Button Display
+    function toggleAudio() {
+      audioMuted = !audioMuted;
+      const btn = document.getElementById('audioToggleBtn');
+      btn.innerText = audioMuted ? '🔇' : '🔊';
+    }
+
+    // Interactive notebook database of pages
+    // Complete 100% data from uploaded Terminal_Git_Commands.md preserves all formatting
+    const pagesDatabase = [
+      
+      // SPREAD 0: COVER PAGE (Includes User input custom title)
+      {
+        left: `
+          <div class="flex flex-col items-center justify-center h-full text-center py-6 min-h-[500px]">
+            <div class="sketch-border bg-amber-50 p-6 shadow-md w-full max-w-sm rotate-[-1deg] relative">
+              <span class="absolute -top-3 -left-3 text-2xl">⚡</span>
+              <h1 class="text-2xl font-hand-marker text-red-600 mb-2">CS EXAM CRACKER NOTES</h1>
+              <p class="font-sans text-xs uppercase tracking-wider text-stone-500 border-b border-stone-300 pb-2">Web Development Specialization</p>
+              
+              <div class="mt-4">
+                <label class="block text-stone-500 text-xs font-sans mb-1 uppercase">Student Notebook Of:</label>
+                <input type="text" id="ownerNameInput" value="High-Scorer Topper" oninput="saveOwnerName(this.value)" class="bg-transparent text-center text-xl font-hand-accent font-bold text-blue-700 w-full focus:outline-none focus:ring-1 focus:ring-amber-400 border-b border-dashed border-blue-400">
+              </div>
+              
+              <div class="mt-6 font-hand-body text-lg text-slate-700 text-left space-y-2">
+                <div class="flex items-center gap-2">🟢 <span class="hand-highlighter">Terminal Mechanics</span></div>
+                <div class="flex items-center gap-2">🟢 <span class="hand-highlighter">Git Versioning Engines</span></div>
+                <div class="flex items-center gap-2">🟢 <span class="hand-highlighter">GitHub Enterprise Collaboration</span></div>
+              </div>
+            </div>
+            
+            <div class="mt-12 text-sm text-stone-500 italic max-w-xs leading-relaxed text-center font-hand-accent">
+              "Commit early, commit often, and explain the WHY behind your changes!" 📝
+            </div>
+          </div>
+        `,
+        right: `
+          <div class="flex flex-col justify-start h-full py-4">
+            <h2 class="text-xl font-hand-marker text-red-600 underline">TABLE OF CONTENTS</h2>
+            <p class="text-xs text-stone-500 mb-3 italic">Index list for rapid retrieval of Git configurations & processes</p>
+            
+            <ul class="text-base text-blue-800 space-y-1.5 list-none pl-2">
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>📓 1. Interview: What is Terminal, Git & GitHub?</span> <span class="text-stone-400">P.1</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>🚀 2. Fundamental Terminal Operations</span> <span class="text-stone-400">P.3</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>📁 3. File & Directory System Mechanics</span> <span class="text-stone-400">P.4</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>💻 4. System & Process Thread Monitoring</span> <span class="text-stone-400">P.5</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>🔍 5. Regular Expressions & Grep Searches</span> <span class="text-stone-400">P.6</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>⚡ 6. Git Core: Configs, Repos, & Commits</span> <span class="text-stone-400">P.7</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>🌿 7. Branch Architectures & Conflict Merges</span> <span class="text-stone-400">P.8</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>🌍 8. Remote Repos & Collaboration Pipeline</span> <span class="text-stone-400">P.9</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>⚠️ 9. Git Undoing mechanics (Safeties)</span> <span class="text-stone-400">P.10</span>
+              </li>
+              <li class="flex items-center justify-between border-b border-dashed border-stone-200">
+                <span>🔄 10. Real-World Workflows (MERN, Hotfixes)</span> <span class="text-stone-400">P.11</span>
+              </li>
+            </ul>
+
+            <div class="mt-6 sketch-border-thin bg-amber-50 p-3 rotate-[1deg] text-xs">
+              <span class="text-red-600 font-bold uppercase block mb-1">💡 Study Mode Instructions:</span>
+              Use the top-right <strong class="text-amber-700">"Active Recall Quiz"</strong> button to test your retention. Click or hover highlighted sections to reveal correct answers! Perfect tool for quick revision before exams.
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 1: INTERVIEW PREP - DEFINITIONS & CORE MECHANICS
+      {
+        left: `
+          <div class="relative">
+            <span class="absolute right-0 top-0 text-xs bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded font-sans rotate-6">EXAM PREP</span>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">INTERVIEW PREP: What is Terminal?</h2>
+            
+            <div class="mb-3">
+              <span class="text-sm font-hand-accent font-bold text-red-500">DEFINITIONS:</span>
+              <p class="text-lg leading-relaxed text-blue-900">
+                A <span class="hand-highlighter">Terminal</span> is a <span class="font-bold underline">text-based interface</span> to your machine where you execute commands directly through strings rather than visual interfaces. It grants low-level file & system communication channels.
+              </p>
+            </div>
+
+            <div class="mb-2">
+              <span class="text-sm font-hand-accent font-bold text-red-500">KEY FUNCTIONALITIES:</span>
+              <ul class="list-disc pl-5 text-base space-y-1 text-slate-800">
+                <li>System environment variable configuration & execution control.</li>
+                <li>Manual system process analysis & target task execution.</li>
+                <li>Full developer tool execution environment (npm, Docker, git, node runtimes).</li>
+                <li>Direct SSH connectivity and script orchestration.</li>
+              </ul>
+            </div>
+
+            <div class="mb-2">
+              <span class="text-sm font-hand-accent font-bold text-red-500">WHY WE USE IT (BETTER THAN GUI):</span>
+              <ul class="list-none pl-2 text-base space-y-1 text-slate-800">
+                <li>⚡ <strong class="text-stone-800">Speed Optimization:</strong> Keyboard commands vastly outperform graphical navigations.</li>
+                <li>🤖 <strong class="text-stone-800">Task Automation:</strong> Write bash/zsh scripts to repeat execution sequences.</li>
+                <li>🌐 <strong class="text-stone-800">Server Management:</strong> Production cloud engines have no screens; SSH terminal is the only way in.</li>
+              </ul>
+            </div>
+
+            <div class="mt-3 bg-red-50 p-2.5 sketch-border-thin text-xs">
+              <span class="font-hand-accent font-bold text-red-600 block">💬 INTERVIEW MODEL REPLY:</span>
+              "A terminal is a text interface. Instead of clicking files in windows, we input raw text strings to execute scripts, maintain environment states, build packages, and interface directly with system operations safely and highly efficiently."
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">INTERVIEW PREP: What is Git?</h2>
+            
+            <div class="mb-3">
+              <span class="text-sm font-hand-accent font-bold text-red-500">DEFINITIONS:</span>
+              <p class="text-lg leading-relaxed text-blue-900">
+                <span class="hand-highlighter">Git</span> is a <span class="underline font-bold">distributed version control system (VCS)</span> engineered to monitor modifications, trace structural directory history, and empower concurrent development pipelines without risking core production.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mb-2 text-xs">
+              <div class="bg-blue-50/50 p-2 border-l-2 border-blue-400">
+                <strong class="text-blue-900 block font-hand-accent">🔒 Safe History:</strong>
+                Traces WHO made updates, WHAT code was altered, WHEN it was merged, and WHY. Includes rollback capabilities.
+              </div>
+              <div class="bg-purple-50/50 p-2 border-l-2 border-purple-400">
+                <strong class="text-purple-900 block font-hand-accent">🌿 Branch Isolation:</strong>
+                Experiment with new components inside secure side branches without risking stable codebase.
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <span class="text-sm font-hand-accent font-bold text-red-500">KEY CONCEPT ENGINES:</span>
+              <ul class="list-disc pl-5 text-base space-y-0.5 text-slate-800">
+                <li><strong>Repository:</strong> Code database holding version snapshots inside private <code class="bg-stone-200 px-1 font-sans">.git</code> index folder.</li>
+                <li><strong>Commit:</strong> Immutable game-style <span class="hand-highlighter">save point snapshot</span> containing author checksums.</li>
+                <li><strong>Staging Area:</strong> Selection deck before commits are frozen (<code class="bg-stone-200 px-1 text-sm">git add</code>).</li>
+                <li><strong>Remote vs Local:</strong> Workspace storage (Your machine) versus Cloud base repository.</li>
+              </ul>
+            </div>
+
+            <div class="mt-3 bg-amber-50 p-2 sketch-border-thin text-xs">
+              <span class="font-hand-accent font-bold text-amber-700 block">💡 TOPPER REVISION POINT:</span>
+              "Distributed" means every single developer on a team holds the <strong class="underline">entire local project history database</strong> on their hardware. It works offline & serves as an instantaneous backup.
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 2: GIT VS GITHUB & STAGES
+      {
+        left: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">INTERVIEW PREP: What is GitHub?</h2>
+            
+            <p class="text-base leading-relaxed text-slate-800 mb-2">
+              <span class="hand-highlighter">GitHub</span> is a <span class="font-bold underline">cloud-hosting platform</span> built to manage Git databases over web networks. It is a cloud terminal providing additional collaborative UI modules.
+            </p>
+
+            <div class="bg-stone-100 p-2 rounded border-2 border-stone-300 my-2">
+              <span class="text-xs text-stone-500 uppercase font-sans font-bold">⚠️ COMMON MIX-UP IN INTERVIEWS</span>
+              <table class="w-full text-xs text-left border-collapse mt-1">
+                <thead>
+                  <tr class="border-b border-stone-300 font-hand-accent text-red-600">
+                    <th class="pb-1">Aspect</th>
+                    <th class="pb-1">Git (Local engine)</th>
+                    <th class="pb-1">GitHub (Cloud)</th>
+                  </tr>
+                </thead>
+                <tbody class="text-[11px] leading-relaxed">
+                  <tr class="border-b border-stone-200">
+                    <td class="font-bold py-1">Type</td>
+                    <td>Command-Line engine tool</td>
+                    <td>SaaS Web Platform Interface</td>
+                  </tr>
+                  <tr class="border-b border-stone-200">
+                    <td class="font-bold py-1">Runs On</td>
+                    <td>Your computer processor</td>
+                    <td>Enterprise cloud servers</td>
+                  </tr>
+                  <tr class="border-b border-stone-200">
+                    <td class="font-bold py-1">Alternatives</td>
+                    <td>None (industry standard)</td>
+                    <td>GitLab, Bitbucket, Gitea</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="mb-1 text-base text-slate-800">
+              <span class="text-xs font-hand-accent font-bold text-red-500 uppercase">💥 ESSENTIAL COLLAB TOOLS:</span>
+              <ul class="list-disc pl-5 space-y-0.5 text-sm">
+                <li><strong class="text-stone-950">Pull Request (PR):</strong> Structural proposal requesting review and permissions prior to code integration.</li>
+                <li><strong class="text-stone-950">Forking:</strong> Copying an external repository straight onto your own cloud profile.</li>
+                <li><strong class="text-stone-950">Branch Guards:</strong> Setting access boundaries protecting primary master lines from damage.</li>
+              </ul>
+            </div>
+
+            <div class="bg-blue-50 p-2.5 sketch-border-thin text-[11px] leading-snug">
+              <span class="font-hand-accent font-bold text-blue-800 block">💬 EXAM REPLY DEFINITION:</span>
+              "GitHub hosts remote git indexes online. While Git maintains version state variables locally on your system hardware, GitHub acts as our central network hub to organize structural project branches, perform deep code analysis, file logs, and initiate Pull Request approvals."
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">INTERVIEW PREP: Typical Dev Flow</h2>
+            <p class="text-xs text-stone-500 mb-2">Standard pipeline sequence applied inside corporate development squads</p>
+
+            <ol class="list-decimal pl-5 text-base space-y-1.5 text-slate-800 font-hand-body">
+              <li>
+                <strong class="text-stone-900">Isolation setup:</strong> 
+                Create feature branch locally. <code class="bg-stone-100 text-xs text-red-600 px-1">git checkout -b feature/auth</code>
+              </li>
+              <li>
+                <strong class="text-stone-900">Active Coding:</strong> 
+                Construct features in local directory.
+              </li>
+              <li>
+                <strong class="text-stone-900">Check Modifications:</strong> 
+                Review current index. <code class="bg-stone-100 text-xs text-red-600 px-1">git status</code> & <code class="bg-stone-100 text-xs text-red-600 px-1">git diff</code>
+              </li>
+              <li>
+                <strong class="text-stone-900">Stage:</strong> 
+                Pack files into staging deck. <code class="bg-stone-100 text-xs text-red-600 px-1">git add .</code>
+              </li>
+              <li>
+                <strong class="text-stone-900">Freeze state:</strong> 
+                Apply atomic message description. <code class="bg-stone-100 text-xs text-red-600 px-1">git commit -m "feat: user lock"</code>
+              </li>
+              <li>
+                <strong class="text-stone-900">Push to Remote:</strong> 
+                Publish branch online. <code class="bg-stone-100 text-xs text-red-600 px-1">git push -u origin feature/auth</code>
+              </li>
+              <li>
+                <strong class="text-stone-900">PR Integration:</strong> 
+                Launch GitHub PR & seek team review approval.
+              </li>
+              <li>
+                <strong class="text-stone-900">Deployment:</strong> 
+                Merge PR on approval, syncing main with deployment.
+              </li>
+            </ol>
+
+            <div class="mt-4 sketch-border bg-yellow-50 p-3 text-xs rotate-[-1deg]">
+              <span class="text-amber-800 font-bold font-hand-accent block">🧠 MEMORY TRICK:</span>
+              "To remember the flow of moving changes from sandbox to cloud repository: ADD, COMMIT, and PUSH! ACP!"
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 3: VISUAL GIT WORKFLOW DIAGRAM
+      {
+        left: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">VISUALIZING GIT PIPELINE</h2>
+            <p class="text-xs text-stone-500 mb-2">Mental model diagram of the three primary Git stages + remote hosting</p>
+
+            <!-- Sketch-style SVG workflow diagram -->
+            <div class="w-full bg-amber-50/50 sketch-border-thin p-3 flex flex-col justify-center items-center my-2">
+              <svg viewBox="0 0 400 240" class="w-full max-w-sm h-auto font-hand-accent text-xs">
+                
+                <!-- Working Directory Box -->
+                <rect x="10" y="20" width="105" height="45" rx="6" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="2 2" />
+                <text x="18" y="38" fill="#1e3a8a" font-weight="bold">Working Dir</text>
+                <text x="18" y="52" fill="#1e3a8a" class="text-[9px]">Local Sandbox</text>
+
+                <!-- Staging Area Box -->
+                <rect x="145" y="20" width="105" height="45" rx="6" fill="none" stroke="#15803d" stroke-width="2" />
+                <text x="155" y="38" fill="#14532d" font-weight="bold">Staging Area</text>
+                <text x="155" y="52" fill="#14532d" class="text-[9px]">Prep Deck</text>
+
+                <!-- Local Repo Box -->
+                <rect x="280" y="20" width="110" height="45" rx="6" fill="none" stroke="#7c3aed" stroke-width="2" />
+                <text x="290" y="38" fill="#4c1d95" font-weight="bold">Local Repo</text>
+                <text x="290" y="52" fill="#4c1d95" class="text-[9px]">.git Database</text>
+
+                <!-- GitHub Remote Box (at the bottom) -->
+                <rect x="100" y="150" width="200" height="60" rx="8" fill="none" stroke="#dc2626" stroke-width="2.5" />
+                <text x="160" y="175" fill="#7f1d1d" font-size="14" font-weight="bold">GITHUB REMOTE</text>
+                <text x="145" y="195" fill="#7f1d1d" class="text-[10px]">Central Collaborative Hub</text>
+
+                <!-- Connecting Hand Drawn Arrows -->
+                <!-- git add -->
+                <path d="M 115 42 L 140 42" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#arrow)" />
+                <text x="118" y="34" fill="#15803d" class="text-[10px]">add</text>
+
+                <!-- git commit -->
+                <path d="M 250 42 L 275 42" fill="none" stroke="#7c3aed" stroke-width="2" />
+                <text x="251" y="34" fill="#7c3aed" class="text-[10px]">commit</text>
+
+                <!-- git push -->
+                <path d="M 320 65 C 320 120, 270 150, 270 150" fill="none" stroke="#dc2626" stroke-width="1.8" />
+                <text x="315" y="110" fill="#dc2626" class="text-[10px]">git push</text>
+
+                <!-- git pull -->
+                <path d="M 125 150 C 100 120, 60 65, 60 65" fill="none" stroke="#2563eb" stroke-width="1.8" />
+                <text x="45" y="110" fill="#2563eb" class="text-[10px]">git pull</text>
+
+                <!-- Arrow markers defs -->
+                <defs>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#15803d" />
+                  </marker>
+                </defs>
+              </svg>
+            </div>
+
+            <div class="text-sm space-y-1.5 text-slate-800">
+              <p>🚩 <strong class="text-blue-900 underline">Working Dir:</strong> Your raw, untracked development folder. Files modified but not staged yet appear in <strong class="text-red-500">red</strong> under <code class="bg-stone-100 p-0.5 font-sans">git status</code>.</p>
+              <p>🚩 <strong class="text-green-900 underline">Staging Area:</strong> Crucial prep level. Tracks structural file differences to commit in a single action. Green on status screen.</p>
+              <p>🚩 <strong class="text-purple-900 underline">Local Repo:</strong> Holds all saved snapshots. Complete timeline history is recorded here.</p>
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">INTERVIEW PREP: Top 5 Qs</h2>
+            <p class="text-xs text-stone-500 mb-2">Be prepared to confidently answer these common tech questions</p>
+
+            <div class="space-y-3 text-base">
+              <div>
+                <span class="text-sm font-hand-accent font-bold text-red-500">Q1: How do you handle merge conflicts?</span>
+                <p class="text-blue-900 italic leading-snug">
+                  "Conflicts emerge when concurrent branches modify identical file lines. Git interrupts the process and adds conflict separators. I open the affected files, manually review the markers, clean out the trash code, and commit the correct file output."
+                </p>
+              </div>
+
+              <div>
+                <span class="text-sm font-hand-accent font-bold text-red-500">Q2: Why use branches?</span>
+                <p class="text-blue-900 italic leading-snug">
+                  "They let developers write new features in sandbox isolation. Master lines stay secure and test-ready, while changes undergo PR reviews before production merges."
+                </p>
+              </div>
+
+              <div>
+                <span class="text-sm font-hand-accent font-bold text-red-500">Q3: What's the value of frequent micro-commits?</span>
+                <p class="text-blue-900 italic leading-snug">
+                  "Frequent commits yield dense, traceable histories. This makes debugging much easier—if a bug crawls in, we can precisely pinpoint the failing save point."
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-4 bg-red-50 p-2.5 sketch-border-thin text-xs text-slate-700">
+              <span class="text-red-600 font-bold font-hand-accent block">⚠️ CRITICAL EXAM BLUNDER:</span>
+              Never merge code containing Git Conflict Markers (<code class="bg-stone-200 font-sans p-0.5">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code>) to master branches! Modern compilers will instantly throw syntax errors and crash deployments!
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 4: BASIC TERMINAL & FILE OPERATIONS
+      {
+        left: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">BASIC TERMINAL NAVIGATION</h2>
+            <p class="text-xs text-stone-500 mb-2">Essential commands to navigate files via the Command Line Interface</p>
+
+            <div class="space-y-2 text-base">
+              <div>
+                <code class="bg-slate-900 text-green-400 px-2 py-0.5 rounded text-sm font-hand-code select-all">pwd</code>
+                <span class="text-stone-500 font-sans text-xs">// Print Working Directory</span>
+                <p class="text-blue-900 pl-4">Returns current full system directory path.</p>
+              </div>
+
+              <div>
+                <code class="bg-slate-900 text-green-400 px-2 py-0.5 rounded text-sm font-hand-code select-all">cd [path]</code>
+                <span class="text-stone-500 font-sans text-xs">// Change Directory</span>
+                <ul class="list-none pl-4 text-xs space-y-0.5 text-slate-700">
+                  <li>• <code class="bg-stone-100 font-sans">cd ..</code> goes up one parent directory level.</li>
+                  <li>• <code class="bg-stone-100 font-sans">cd ~</code> jumps straight home.</li>
+                  <li>• <code class="bg-stone-100 font-sans">cd /</code> moves directly to the system root.</li>
+                </ul>
+              </div>
+
+              <div>
+                <code class="bg-slate-900 text-green-400 px-2 py-0.5 rounded text-sm font-hand-code select-all">ls [options]</code>
+                <span class="text-stone-500 font-sans text-xs">// List Files</span>
+                <ul class="list-none pl-4 text-xs space-y-1 text-slate-700">
+                  <li>• <code class="bg-stone-200 font-sans font-bold text-red-700">ls -la</code> <span class="hand-highlighter">Lists EVERYTHING</span>, including hidden configurations (.env, .git) with details and file permissions.</li>
+                  <li>• <code class="bg-stone-200 font-sans">ls -lh</code> Outputs readable storage sizes (KB, MB).</li>
+                  <li>• <code class="bg-stone-200 font-sans">ls -lt</code> Sorts files by modification timestamp.</li>
+                </ul>
+              </div>
+
+              <div class="bg-blue-50/50 p-2 border-l-4 border-blue-600 text-xs">
+                <span class="font-hand-accent font-bold text-blue-800">🛠️ NAVIGATION PRACTICE:</span>
+                <code class="block bg-slate-900 text-amber-300 p-1 rounded font-hand-code mt-1 text-xs">
+                  cd ~/projects/my-app<br>
+                  pwd  # /Users/dev/projects/my-app<br>
+                  ls -la
+                </code>
+              </div>
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">FILE & DIRECTORY SYSTEM ACTIONS</h2>
+            <p class="text-xs text-stone-500 mb-2">Creating, copying, relocating, and deleting system files</p>
+
+            <div class="space-y-1.5 text-base">
+              <div>
+                <strong class="text-stone-900">Creating Elements:</strong>
+                <ul class="list-disc pl-5 text-sm space-y-1 text-slate-800">
+                  <li><code class="bg-slate-100 px-1 font-sans">mkdir app</code>: Creates a directory named "app".</li>
+                  <li><code class="bg-slate-100 px-1 font-sans">mkdir -p app/src/styles</code>: Creates entire <span class="hand-highlighter">nested structures</span> instantly.</li>
+                  <li><code class="bg-slate-100 px-1 font-sans">touch config.env</code>: Creates an empty text file safely.</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-red-700">Deleting Elements: (Permanent! No Trash Can!)</strong>
+                <ul class="list-disc pl-5 text-sm text-slate-800">
+                  <li><code class="bg-slate-100 px-1 font-sans text-red-600">rm code.js</code>: Deletes individual code file.</li>
+                  <li><code class="bg-slate-100 px-1 font-sans text-red-600">rm -r folder</code>: Deletes directory <span class="underline">recursively</span> and everything inside.</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-stone-900">Transferring & Relocating:</strong>
+                <ul class="list-disc pl-5 text-sm text-slate-800">
+                  <li><code class="bg-slate-100 px-1 font-sans">cp file.txt copy.txt</code>: Clones file.</li>
+                  <li><code class="bg-slate-100 px-1 font-sans">cp -r app app-backup</code>: Clones whole folder structure.</li>
+                  <li><code class="bg-slate-100 px-1 font-sans">mv old.js new.js</code>: Renames files or moves them elsewhere.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 sketch-border bg-amber-50 p-3 text-xs">
+              <span class="text-amber-800 font-bold font-hand-accent block">⚠️ EXAM WARNING:</span>
+              Running <code class="bg-stone-200 text-red-600 font-sans p-0.5">rm -rf /</code> wipes your entire system hard drive. <strong class="underline">Never run this!</strong>
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 5: SYSTEM MANAGEMENT & REGEX SEARCHES
+      {
+        left: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">SYSTEMS, PORTS & THREAD LOGS</h2>
+            <p class="text-xs text-stone-500 mb-2">Analyzing active processes, finding free ports, and reading system files</p>
+
+            <div class="space-y-2 text-base">
+              <div>
+                <span class="text-sm font-hand-accent font-bold text-red-500">VIEWING RUNTIME ENVIRONMENT:</span>
+                <ul class="list-disc pl-5 text-xs text-slate-800">
+                  <li><code class="bg-slate-100 font-sans">whoami</code>: Prints the active username.</li>
+                  <li><code class="bg-slate-100 font-sans">df -h</code>: Human-readable disk storage remaining.</li>
+                  <li><code class="bg-slate-100 font-sans">tail -f app.log</code>: <span class="hand-highlighter">Follows log updates</span> live in real-time.</li>
+                </ul>
+              </div>
+
+              <div>
+                <span class="text-sm font-hand-accent font-bold text-red-500">MANAGING RUNTIME PROCESSES:</span>
+                <ul class="list-disc pl-5 text-xs text-slate-800 space-y-1">
+                  <li><code class="bg-slate-100 font-sans">ps aux</code>: Logs every running process with its CPU/memory usage.</li>
+                  <li><code class="bg-slate-100 font-sans">lsof -i :3000</code>: Instantly reveals what application is using port 3000 (often Node/React).</li>
+                  <li><code class="bg-slate-100 font-sans text-red-600">kill -9 [PID]</code>: Forcibly halts processes immediately.</li>
+                </ul>
+              </div>
+
+              <div class="bg-slate-900 text-green-400 p-2.5 rounded font-hand-code text-xs">
+                <span class="text-slate-400 block font-sans font-bold">💡 REAL DEV SOLUTION: PORT 3000 HUNG</span>
+                <span class="text-stone-300 italic">// Safely clear a hanging React development server:</span><br>
+                lsof -i :3000 <span class="text-stone-400"># Output PID: 12345</span><br>
+                kill 12345 <span class="text-stone-400"># Port cleared!</span>
+              </div>
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">SEARCHING & TEXT PROCESSING</h2>
+            <p class="text-xs text-stone-500 mb-2">Using Find, Grep, Sed, and text processing utilities</p>
+
+            <div class="space-y-1.5 text-base">
+              <div>
+                <strong class="text-stone-900">Locating Files:</strong>
+                <p class="text-sm text-slate-800 leading-snug">
+                  <code class="bg-slate-100 px-1 font-sans">find . -name "*.js"</code>: Searches the current directory recursively for JavaScript files.
+                </p>
+              </div>
+
+              <div>
+                <strong class="text-stone-900">Text Searching (Grep):</strong>
+                <ul class="list-disc pl-5 text-xs text-slate-800">
+                  <li><code class="bg-slate-100 font-sans">grep -r "console.log" ./src</code>: Scans all source folders recursively for print statements.</li>
+                  <li><code class="bg-slate-100 font-sans">grep -i "Search" file.txt</code>: Runs case-insensitive matching.</li>
+                  <li><code class="bg-slate-100 font-sans">grep -n "term" file.txt</code>: Displays matched text with line numbers.</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-stone-900">Text Processing (Sed):</strong>
+                <ul class="list-disc pl-5 text-xs text-slate-800">
+                  <li><code class="bg-slate-100 font-sans">sed 's/old/new/g' file.txt</code>: Replaces "old" with "new" in-memory.</li>
+                  <li><code class="bg-slate-100 font-sans">sed -i '' 's/oldName/newName/g' ./src/*.js</code>: Bulk modifies text in-place across all JS files.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 bg-blue-50 p-2.5 sketch-border-thin text-xs text-slate-700">
+              <span class="text-blue-800 font-bold font-hand-accent block">🚀 PRACTICAL CODE CLEANUP:</span>
+              To search for console logs inside your codebase and count how many you have left, pipe these commands together:
+              <code class="block bg-slate-900 text-amber-300 p-1 rounded font-hand-code mt-1 text-[11px]">
+                grep -r "console.log" ./src | wc -l
+              </code>
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 6: GIT CORE: SETUP, CONFIG, COMMITS
+      {
+        left: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">GIT FUNDAMENTALS: INITIAL SETUP</h2>
+            <p class="text-xs text-stone-500 mb-2">Configuring and spinning up repositories from scratch</p>
+
+            <div class="space-y-2 text-base">
+              <div>
+                <span class="text-sm font-hand-accent font-bold text-red-500">GLOBAL ACCOUNT SETUP:</span>
+                <p class="text-slate-800">Before saving changes, set your identifier. These values attach directly to every save point.</p>
+                <code class="block bg-slate-900 text-green-400 p-2 rounded text-xs font-hand-code select-all leading-tight mt-1">
+                  git config --global user.name "Your Name"<br>
+                  git config --global user.email "name@example.com"<br>
+                  git config --list # Verify current properties
+                </code>
+              </div>
+
+              <div>
+                <span class="text-sm font-hand-accent font-bold text-red-500">SPINNING REPOSITORIES:</span>
+                <ul class="list-none pl-2 text-sm text-slate-800 space-y-1">
+                  <li>📂 <strong class="text-stone-900">git init</strong>: Creates a new local database inside an hidden <code class="bg-stone-100 p-0.5 font-sans">.git</code> folder.</li>
+                  <li>📥 <strong class="text-stone-900">git clone [URL]</strong>: Downloads an online repository and automatically maps tracking branches.</li>
+                  <li>🏷️ <strong class="text-stone-900">git clone [URL] [custom-name]</strong>: Clones into a custom directory of your choice.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-6 sketch-border-thin bg-amber-50 p-3 text-xs leading-relaxed">
+              <span class="text-amber-800 font-bold font-hand-accent block">💡 TOPPER ADVICE ON GLOBAL SETTINGS:</span>
+              If your git global emails don't match your GitHub profile email, <strong class="underline">GitHub won't show your green activity contribution squares</strong>! Keep your work and school profiles synced.
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">STAGING & SNAPSHOTTING</h2>
+            <p class="text-xs text-stone-500 mb-2">Mastering commits, atomic snapshots, and amendments</p>
+
+            <div class="space-y-1.5 text-base">
+              <div>
+                <strong class="text-stone-900">Essential Actions:</strong>
+                <ul class="list-disc pl-5 text-sm space-y-1 text-slate-800">
+                  <li><code class="bg-slate-100 font-sans text-xs">git status</code>: Shows what files are untracked, changed, or staged.</li>
+                  <li><code class="bg-slate-100 font-sans text-xs">git add [file]</code>: Stages a specific file for the next snapshot.</li>
+                  <li><code class="bg-slate-100 font-sans text-xs">git add .</code>: Stages all file updates in the current directory.</li>
+                  <li><code class="bg-slate-100 font-sans text-xs">git commit -m "feat: login"</code>: Creates a snapshot with a clean description.</li>
+                  <li><code class="bg-slate-100 font-sans text-xs">git commit -am "fix"</code>: Combined stage and commit (only works for modified, tracked files).</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-stone-900">Oops, I messed up my last commit! (Amend):</strong>
+                <p class="text-sm text-slate-800 leading-snug">
+                  If you forgot to add a file or made a typo in your last commit message, you can fix it using:
+                </p>
+                <code class="block bg-slate-900 text-amber-300 p-2 rounded text-xs font-hand-code select-all mt-1">
+                  git commit --amend -m "correct message"
+                </code>
+              </div>
+            </div>
+
+            <div class="mt-4 bg-blue-50 p-2.5 sketch-border-thin text-xs text-slate-700">
+              <span class="text-blue-800 font-bold font-hand-accent block">🚀 COMMIT BEST PRACTICES:</span>
+              Write commits in the <span class="underline">imperative mood</span>: "fix: crash on auth screen" instead of "fixed crash on auth screen". Think of it as giving directions to the code.
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 7: BRANCHING, MERGING & REBASING
+      {
+        left: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">BRANCH ISOLATION</h2>
+            <p class="text-xs text-stone-500 mb-2">Creating and navigating parallel development lines</p>
+
+            <div class="space-y-2 text-base">
+              <div>
+                <span class="text-sm font-hand-accent font-bold text-red-500">CORE BRANCH COMMANDS:</span>
+                <ul class="list-disc pl-5 text-sm space-y-1 text-slate-800 font-hand-body">
+                  <li><code class="bg-slate-100 font-sans">git branch</code>: Lists local branches. (Active branch is marked with an asterisk <span class="text-green-600 font-bold">*</span>).</li>
+                  <li><code class="bg-slate-100 font-sans">git branch -a</code>: Lists all branches, including remote tracking branches.</li>
+                  <li><code class="bg-slate-100 font-sans">git checkout -b feature-name</code>: <span class="hand-highlighter">Creates and switches</span> to a new branch instantly.</li>
+                  <li><code class="bg-slate-100 font-sans">git checkout main</code>: Switches back to the main/master production branch.</li>
+                  <li><code class="bg-slate-100 font-sans text-red-600">git branch -d branch-name</code>: Deletes a branch safely (warns you if changes are not merged).</li>
+                  <li><code class="bg-slate-100 font-sans text-red-600">git branch -D branch-name</code>: Force deletes a branch, discarding all changes.</li>
+                </ul>
+              </div>
+
+              <div class="bg-blue-50/50 p-2 border-l-4 border-blue-600 text-xs">
+                <span class="font-hand-accent font-bold text-blue-800">🛠️ SAMPLE BRANCH SEQUENCE:</span>
+                <code class="block bg-slate-900 text-amber-300 p-1.5 rounded font-hand-code mt-1 text-[11px]">
+                  git checkout -b feature/user-profile<br>
+                  # ... write awesome profiles code ...<br>
+                  git commit -am "feat: user avatar"<br>
+                  git checkout main
+                </code>
+              </div>
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">MERGING & REBASING</h2>
+            <p class="text-xs text-stone-500 mb-2">Integrating branch history back into main lines</p>
+
+            <div class="space-y-2 text-base">
+              <div>
+                <strong class="text-stone-900">Merging:</strong>
+                <p class="text-sm text-slate-800 leading-snug">
+                  Integrates changes from a target branch into your active branch.
+                </p>
+                <ul class="list-disc pl-5 text-xs text-slate-700">
+                  <li><code class="bg-slate-100 font-sans">git merge feature-name</code>: Standard merge.</li>
+                  <li><code class="bg-slate-100 font-sans">git merge --no-ff feature-name</code>: Forces a merge commit to preserve historical branch tracking.</li>
+                  <li><code class="bg-slate-100 font-sans">git merge --squash feature-name</code>: Combines all feature branch commits into <span class="hand-highlighter">one single commit</span> on main.</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-stone-900">Rebasing (Clean linear history):</strong>
+                <p class="text-sm text-slate-800 leading-snug">
+                  Moves the starting point of your branch to the latest commit on main. Avoids ugly merge loops.
+                </p>
+                <code class="block bg-slate-900 text-green-400 p-1.5 rounded text-xs font-hand-code select-all mt-1">
+                  git checkout feature-branch<br>
+                  git rebase main
+                </code>
+              </div>
+            </div>
+
+            <!-- Sketchy branching timeline visualization -->
+            <div class="w-full bg-amber-50/50 sketch-border-thin p-1 flex justify-center items-center mt-3">
+              <svg viewBox="0 0 380 90" class="w-full h-auto text-[10px] font-hand-accent">
+                <!-- Main timeline -->
+                <line x1="10" y1="50" x2="350" y2="50" stroke="#475569" stroke-width="2" />
+                <circle cx="40" cy="50" r="5" fill="#1e3a8a" title="Commit 1" />
+                <circle cx="120" cy="50" r="5" fill="#1e3a8a" title="Commit 2" />
+                <circle cx="320" cy="50" r="5" fill="#1e3a8a" title="Merge Commit" />
+                <text x="40" y="65" fill="#1e3a8a">C1</text>
+                <text x="120" y="65" fill="#1e3a8a">C2</text>
+                <text x="315" y="65" fill="#1e3a8a">Merge</text>
+                
+                <!-- Feature Branch timeline -->
+                <path d="M 120 50 Q 180 15, 230 15" fill="none" stroke="#dc2626" stroke-width="1.5" />
+                <line x1="230" y1="15" x2="270" y2="15" stroke="#dc2626" stroke-width="1.5" />
+                <circle cx="180" cy="20" r="5" fill="#dc2626" />
+                <circle cx="250" cy="15" r="5" fill="#dc2626" />
+                <text x="175" y="35" fill="#991b1b">F1</text>
+                <text x="245" y="30" fill="#991b1b">F2</text>
+
+                <!-- Merge arrow back to main -->
+                <path d="M 270 15 Q 300 15, 320 45" fill="none" stroke="#475569" stroke-width="1.5" marker-end="url(#timeline-arrow)" />
+                <text x="13" y="44" fill="#475569" font-weight="bold">main</text>
+                <text x="145" y="10" fill="#dc2626" font-weight="bold">feature</text>
+
+                <defs>
+                  <marker id="timeline-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569" />
+                  </marker>
+                </defs>
+              </svg>
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 8: REMOTES & UNDOING CHANGES
+      {
+        left: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">REMOTE SYNC & TEAM FLOW</h2>
+            <p class="text-xs text-stone-500 mb-2">Syncing your machine with cloud directories</p>
+
+            <div class="space-y-1.5 text-base">
+              <div>
+                <strong class="text-stone-900">Remote References:</strong>
+                <ul class="list-disc pl-5 text-xs text-slate-800 space-y-0.5">
+                  <li><code class="bg-slate-100 font-sans">git remote -v</code>: Lists connected online target URLs.</li>
+                  <li><code class="bg-slate-100 font-sans">git remote add origin [URL]</code>: Connects a local repo to a new GitHub remote.</li>
+                  <li><code class="bg-slate-100 font-sans">git remote set-url origin [URL]</code>: Updates the remote destination URL.</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-stone-900">Fetching vs Pulling:</strong>
+                <p class="text-sm text-slate-800 leading-snug">
+                  <code class="bg-stone-200 font-sans p-0.5">git fetch</code> downloads remote changes, but <span class="underline">does not write</span> them into your files. It's safe.
+                </p>
+                <p class="text-sm text-slate-800 leading-snug">
+                  <code class="bg-stone-200 font-sans p-0.5">git pull</code> is a combined command that does a <strong class="text-blue-900">fetch + merge</strong>. It immediately updates your local files.
+                </p>
+              </div>
+
+              <div>
+                <strong class="text-stone-900">Pushing to the Cloud:</strong>
+                <p class="text-sm text-slate-800 leading-snug">
+                  Publish commits from your local tracking branch to the remote repository.
+                </p>
+                <code class="block bg-slate-900 text-green-400 p-1.5 rounded text-xs font-hand-code select-all mt-1">
+                  git push -u origin feature-branch
+                </code>
+                <span class="text-stone-500 font-sans text-[10px] block mt-0.5">// -u sets upstream tracking so you can just use "git push" next time</span>
+              </div>
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">GIT SAFETIES: UNDOING CHANGES</h2>
+            <p class="text-xs text-stone-500 mb-2">Safely rolling back mistakes and retrieving lost files</p>
+
+            <div class="space-y-1.5 text-base">
+              <div>
+                <span class="text-xs font-hand-accent font-bold text-red-500 block uppercase">🌿 UNCOMMITTED CHANGES:</span>
+                <ul class="list-disc pl-5 text-xs text-slate-800 space-y-0.5">
+                  <li><code class="bg-slate-100 font-sans">git restore file.js</code>: Discards edits in your working directory since the last save.</li>
+                  <li><code class="bg-slate-100 font-sans">git restore --staged file.js</code>: Unstages a file (undos <code class="bg-stone-100 text-[10px]">git add</code>).</li>
+                  <li><code class="bg-slate-100 font-sans">git clean -fd</code>: Deletes all untracked files and folders permanently.</li>
+                </ul>
+              </div>
+
+              <div>
+                <span class="text-xs font-hand-accent font-bold text-red-500 block uppercase">🌿 POST-COMMIT RESET ENGINES:</span>
+                <ul class="list-disc pl-5 text-xs text-slate-800 space-y-1">
+                  <li><code class="bg-slate-100 font-sans">git revert [commit-hash]</code>: Creates a <span class="hand-highlighter">new "undo" commit</span>. Safe for shared remote branches.</li>
+                  <li><code class="bg-slate-100 font-sans">git reset --soft HEAD~1</code>: Undos the last commit, but keeps your changes staged.</li>
+                  <li><code class="bg-slate-100 font-sans text-red-600">git reset --hard HEAD~1</code>: <span class="underline font-bold">Wipes the last commit</span> and all associated edits completely! ⚠️ Danger!</li>
+                </ul>
+              </div>
+
+              <div>
+                <span class="text-xs font-hand-accent font-bold text-red-500 block uppercase">🌟 EMERGENCY TRACE: REFLOG</span>
+                <p class="text-[11px] text-slate-700 leading-snug">
+                  If you accidentally run a hard reset and lose commits, <code class="bg-stone-100 font-sans text-xs">git reflog</code> logs every single movement on your machine. Find the lost commit SHA and restore it:
+                </p>
+                <code class="block bg-slate-900 text-amber-300 p-1 rounded text-xs font-hand-code mt-1 text-[11px]">
+                  git reset --hard [lost-SHA]
+                </code>
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 9: REAL-WORLD WORKFLOW RECIPES
+      {
+        left: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">MERN WORKFLOW & RECOVERIES</h2>
+            <p class="text-xs text-stone-500 mb-2">Real-world playbook recipes for everyday engineering teams</p>
+
+            <div class="space-y-2 text-sm leading-relaxed">
+              <div class="bg-blue-50/50 p-2 border-l-2 border-blue-500">
+                <strong class="text-blue-900 block font-hand-accent">Recipe 1: Daily Team Sync Setup</strong>
+                <ol class="list-decimal pl-4 space-y-0.5 text-xs">
+                  <li>Checkout main: <code class="bg-white px-0.5">git checkout main</code></li>
+                  <li>Fetch latest team updates: <code class="bg-white px-0.5">git pull origin main</code></li>
+                  <li>Branch off safely: <code class="bg-white px-0.5">git checkout -b feature/dashboard</code></li>
+                  <li>Install newly added dependencies: <code class="bg-white px-0.5">npm install</code></li>
+                </ol>
+              </div>
+
+              <div class="bg-red-50 p-2 border-l-2 border-red-500">
+                <strong class="text-red-900 block font-hand-accent">Recipe 2: Oops! Committed directly to Main!</strong>
+                <p class="text-xs text-slate-800 mb-1">How to fix this common mistake without losing your code:</p>
+                <code class="block bg-slate-900 text-amber-300 p-1.5 rounded text-[11px] font-hand-code leading-tight">
+                  git branch feature/my-feature # Saves code to a branch<br>
+                  git reset --hard origin/main  # Resets main to origin state<br>
+                  git checkout feature/my-feature # Switches to your branch
+                </code>
+              </div>
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">COLLABORATION WORKFLOWS</h2>
+            <p class="text-xs text-stone-500 mb-1">Reviewing PRs and deploying production hot-fixes</p>
+
+            <div class="space-y-2 text-sm leading-relaxed">
+              <div class="bg-purple-50/50 p-2 border-l-2 border-purple-500">
+                <strong class="text-purple-900 block font-hand-accent">Recipe 3: Peer Code Review PR Locally</strong>
+                <p class="text-xs mb-1">To test someone else's PR locally before approving on GitHub:</p>
+                <code class="block bg-slate-900 text-green-400 p-1 rounded text-[11px] font-hand-code leading-tight">
+                  git fetch origin pull/123/head:pr-review<br>
+                  git checkout pr-review<br>
+                  npm install && npm test
+                </code>
+              </div>
+
+              <div class="bg-amber-50 p-2 border-l-2 border-amber-600">
+                <strong class="text-amber-900 block font-hand-accent">Recipe 4: Emergency Production Hot-Fix</strong>
+                <p class="text-xs mb-1">Fixing critical bugs directly in production:</p>
+                <code class="block bg-slate-900 text-green-400 p-1 rounded text-[10px] font-hand-code leading-tight">
+                  git checkout main && git pull origin main<br>
+                  git checkout -b hotfix/mem-leak<br>
+                  # ... apply hotfix ...<br>
+                  git commit -am "fix: memory leak"<br>
+                  git push origin hotfix/mem-leak
+                </code>
+                <p class="text-[10px] text-stone-500 italic mt-1">Open PR to merge hotfix to main, then merge back to develop branch as well!</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+
+      // SPREAD 10: QUICK REFERENCE GUIDE (TABLES, ALIASES & BEST PRACTICES)
+      {
+        left: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">USEFUL BASH ALIASES</h2>
+            <p class="text-xs text-stone-500 mb-2">Save time by mapping long commands to short shortcuts</p>
+            
+            <p class="text-base text-slate-800 mb-2 font-hand-body">
+              Add these aliases to your user profile file (<code class="bg-stone-100 p-0.5">~/.bashrc</code> or <code class="bg-stone-100 p-0.5">~/.zshrc</code>) to speed up your workflow:
+            </p>
+
+            <code class="block bg-slate-900 text-green-400 p-3 rounded text-[11px] font-hand-code leading-relaxed select-all">
+              alias gst='git status'<br>
+              alias gco='git checkout'<br>
+              alias gaa='git add .'<br>
+              alias gcm='git commit -m'<br>
+              alias gp='git push'<br>
+              alias gl='git log --oneline -10'<br>
+              alias gb='git branch'<br>
+              alias gd='git diff'<br>
+              <span class="text-amber-300"># Advanced Aliases:</span><br>
+              alias glog='git log --graph --oneline --all'<br>
+              alias gsync='git fetch origin && git rebase origin/main'<br>
+              alias gfresh='git reset --hard origin/main'
+            </code>
+
+            <div class="mt-4 bg-yellow-50 p-2.5 sketch-border-thin text-xs text-slate-700">
+              <span class="text-amber-800 font-bold font-hand-accent block">🚀 HOW TO USE:</span>
+              Once set up, typing <strong class="bg-stone-200 px-1 rounded font-sans">gst</strong> will run <strong class="italic">git status</strong> instantly. It saves thousands of keystrokes over a project lifecycle!
+            </div>
+          </div>
+        `,
+        right: `
+          <div>
+            <h2 class="text-xl font-hand-marker text-red-600 mb-1">TIPS & BEST PRACTICES</h2>
+            <p class="text-xs text-stone-500 mb-3">Topper guidelines for clean collaboration and zero code loss</p>
+
+            <div class="grid grid-cols-2 gap-3 text-base">
+              
+              <!-- DO BOX -->
+              <div class="bg-green-50 p-2 rounded border border-green-200">
+                <span class="font-hand-accent font-bold text-green-700 block">✅ DO:</span>
+                <ul class="list-disc pl-4 text-xs space-y-1.5 text-slate-800">
+                  <li>Commit early, frequently, and with clear messages.</li>
+                  <li>Always pull changes before pushing to avoid conflicts.</li>
+                  <li>Use specific feature branches for all new code.</li>
+                  <li>Add node_modules to your <span class="underline">.gitignore</span> file immediately.</li>
+                </ul>
+              </div>
+
+              <!-- DONT BOX -->
+              <div class="bg-red-50 p-2 rounded border border-red-200">
+                <span class="font-hand-accent font-bold text-red-700 block">❌ DON'T:</span>
+                <ul class="list-disc pl-4 text-xs space-y-1.5 text-slate-800">
+                  <li>Never push directly to the main production branch.</li>
+                  <li>Avoid force-pushing (<code class="bg-white text-[10px]">--force</code>) to shared branches.</li>
+                  <li>Never ignore merge conflicts—address them carefully.</li>
+                  <li>Avoid combining unrelated changes in a single commit.</li>
+                </ul>
+
+              </div>
+            </div>
+
+            <!-- Hand-drawn style highlight card -->
+            <div class="mt-4 sketch-border bg-amber-50 p-2.5 text-center text-xs">
+              <span class="text-red-600 font-bold font-hand-accent block">⚠️ CRITICAL EXAM TIP:</span>
+              "Always check changes before staging them using <code class="bg-stone-200 font-sans p-0.5">git diff</code>! This keeps unwanted files, API keys, and temporary logs out of your repository."
+            </div>
+          </div>
+        `
+      }
+
+    ];
+
+    // Initialize Binding Holes and Paper Rings
+    function renderBinderHoles() {
+      // Find both binding hole target containers
+      const bindingLeft = document.querySelector('#leftPage .absolute');
+      const bindingRight = document.querySelector('#rightPage .absolute');
+      
+      const template = document.getElementById('bindingHoleTemplate');
+      
+      // Clear old elements if any
+      bindingLeft.innerHTML = '';
+      bindingRight.innerHTML = '';
+
+      // We'll create 8 spiral binders uniformly distributed
+      for (let i = 0; i < 8; i++) {
+        // Left Page hole
+        const cloneLeft = template.content.cloneNode(true);
+        bindingLeft.appendChild(cloneLeft);
+
+        // Right Page hole matches mirroring position
+        const itemRight = document.createElement('div');
+        itemRight.className = 'flex items-center flex-row-reverse';
+        itemRight.innerHTML = `
+          <div class="w-4 h-4 rounded-full bg-stone-800 shadow-inner"></div>
+          <div class="w-7 h-3 spiral-ring mr-[-4px]"></div>
+        `;
+        bindingRight.appendChild(itemRight);
+      }
+    }
+
+    // Save and load owner name from cover dynamically
+    function saveOwnerName(val) {
+      localStorage.setItem('neatnotes_owner', val);
+    }
+
+    function loadOwnerName() {
+      const saved = localStorage.getItem('neatnotes_owner');
+      if (saved) {
+        const input = document.getElementById('ownerNameInput');
+        if (input) input.value = saved;
+      }
+    }
+
+    // Load active paper background template
+    function initPaperSelector() {
+      const selector = document.getElementById('paperSelector');
+      selector.addEventListener('change', (e) => {
+        const theme = e.target.value;
+        const leftPage = document.getElementById('leftPage');
+        const rightPage = document.getElementById('rightPage');
+
+        // Clear existing background classes
+        leftPage.classList.remove('ruled-paper', 'grid-paper', 'blank-paper');
+        rightPage.classList.remove('ruled-paper', 'grid-paper', 'blank-paper');
+
+        // Apply chosen class
+        leftPage.classList.add(theme);
+        rightPage.classList.add(theme);
+      });
+    }
+
+    // Dynamic Ink Color Change
+    function changeInk(colorHex) {
+      penColor = colorHex;
+      // Re-apply to text containers
+      const leftC = document.getElementById('leftContent');
+      const rightC = document.getElementById('rightContent');
+      
+      leftC.style.color = colorHex;
+      rightC.style.color = colorHex;
+    }
+
+    // Active Recall Mode switch
+    function toggleActiveRecall() {
+      isRecallActive = !isRecallActive;
+      const targets = document.querySelectorAll('.active-recall-item');
+      
+      targets.forEach(el => {
+        if (isRecallActive) {
+          el.classList.add('recall-hidden');
+          el.classList.remove('recall-revealed');
+          el.addEventListener('click', revealRecallItem);
+        } else {
+          el.classList.remove('recall-hidden', 'recall-revealed');
+          el.removeEventListener('click', revealRecallItem);
+        }
+      });
+    }
+
+    function revealRecallItem(e) {
+      e.target.classList.add('recall-revealed');
+      e.target.classList.remove('recall-hidden');
+    }
+
+    // UI Pagination Controls
+    function renderSpread() {
+      const spreadData = pagesDatabase[currentSpread];
+      
+      const leftContent = document.getElementById('leftContent');
+      const rightContent = document.getElementById('rightContent');
+
+      // Populate pages HTML
+      leftContent.innerHTML = spreadData.left;
+      rightContent.innerHTML = spreadData.right;
+
+      // Update Page indicator display
+      const totalSpreads = pagesDatabase.length;
+      document.getElementById('pageIndicator').innerText = `Spread ${currentSpread + 1} / ${totalSpreads}`;
+      
+      // Individual page numbering inside notebook margins
+      document.getElementById('leftPageNum').innerText = currentSpread === 0 ? "Cover" : `Page ${(currentSpread * 2) - 1}`;
+      document.getElementById('rightPageNum').innerText = currentSpread === 0 ? "Index" : `Page ${currentSpread * 2}`;
+
+      // Reset Active Recall items inside newly rendered pages
+      processActiveRecallTags();
+
+      // Trigger cover-specific listeners if page is zero
+      if (currentSpread === 0) {
+        loadOwnerName();
+      }
+
+      // Restore drawing canvases for this spread
+      restoreCurrentPageDoodle();
+    }
+
+    function processActiveRecallTags() {
+      // Find key elements, code blocks and tables to tag as Active Recall targets
+      const leftC = document.getElementById('leftContent');
+      const rightC = document.getElementById('rightContent');
+
+      // Helper function to tag code blocks and highlighters
+      [leftC, rightC].forEach(container => {
+        // Tag highlighted code outputs
+        const codeElements = container.querySelectorAll('code');
+        codeElements.forEach(el => {
+          el.classList.add('active-recall-item');
+        });
+
+        const highlighterElements = container.querySelectorAll('.hand-highlighter');
+        highlighterElements.forEach(el => {
+          el.classList.add('active-recall-item');
+        });
+      });
+
+      // Force refresh status if already running active recall
+      if (isRecallActive) {
+        isRecallActive = false; // toggles it on properly
+        toggleActiveRecall();
+      }
+    }
+
+    function nextPage() {
+      if (currentSpread < pagesDatabase.length - 1) {
+        currentSpread++;
+        playPaperTurnSound();
+        renderSpread();
+      }
+    }
+
+    function prevPage() {
+      if (currentSpread > 0) {
+        currentSpread--;
+        playPaperTurnSound();
+        renderSpread();
+      }
+    }
+
+    function goToPage(spreadIndex) {
+      if (spreadIndex >= 0 && spreadIndex < pagesDatabase.length) {
+        currentSpread = spreadIndex;
+        playPaperTurnSound();
+        renderSpread();
+      }
+    }
+
+    // ==================== INTERACTIVE DOODLE CANVAS LOGIC ====================
+    function initDoodlePads() {
+      currentLeftCanvas = document.getElementById('doodleCanvasLeft');
+      currentRightCanvas = document.getElementById('doodleCanvasRight');
+
+      currentLeftCtx = currentLeftCanvas.getContext('2d');
+      currentRightCtx = currentRightCanvas.getContext('2d');
+
+      // Dynamic resize handler to keep drawing coordinates synced with responsive paper scale
+      window.addEventListener('resize', resizeCanvases);
+      resizeCanvases();
+
+      // Setup pointer events to handle touch and mouse interactions seamlessly
+      setupCanvasListeners(currentLeftCanvas, currentLeftCtx, 'left');
+      setupCanvasListeners(currentRightCanvas, currentRightCtx, 'right');
+
+      // Toggle Draw Mode UI Listener
+      const btn = document.getElementById('doodleToggle');
+      btn.addEventListener('click', () => {
+        isDoodleMode = !isDoodleMode;
+        const status = document.getElementById('doodleStatus');
+        
+        if (isDoodleMode) {
+          status.innerText = "ON";
+          status.className = "text-green-500 font-bold uppercase";
+          currentLeftCanvas.classList.add('active');
+          currentRightCanvas.classList.add('active');
+          btn.classList.add('bg-stone-600');
+        } else {
+          status.innerText = "OFF";
+          status.className = "text-red-400 font-bold uppercase";
+          currentLeftCanvas.classList.remove('active');
+          currentRightCanvas.classList.remove('active');
+          btn.classList.remove('bg-stone-600');
+        }
+      });
+    }
+
+    function resizeCanvases() {
+      // Fit canvases to their paper containers dynamically without breaking drawings
+      [currentLeftCanvas, currentRightCanvas].forEach((canvas) => {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        
+        // Save drawing data before resize to prevent clean clears
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = canvas.height;
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.drawImage(canvas, 0, 0);
+
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+
+        // Restore image scaling proportionally
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
+      });
+    }
+
+    function setupCanvasListeners(canvas, ctx, side) {
+      // Mouse & Trackpad Down
+      canvas.addEventListener('mousedown', (e) => startDrawing(e, canvas, ctx));
+      canvas.addEventListener('mousemove', (e) => draw(e, canvas, ctx, side));
+      canvas.addEventListener('mouseup', () => stopDrawing(side));
+      canvas.addEventListener('mouseout', () => stopDrawing(side));
+
+      // Touch screen support (Mobile and tablets)
+      canvas.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent("mousedown", {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+      }, { passive: true });
+
+      canvas.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent("mousemove", {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+      }, { passive: true });
+
+      canvas.addEventListener('touchend', () => {
+        const mouseEvent = new MouseEvent("mouseup", {});
+        canvas.dispatchEvent(mouseEvent);
+      }, { passive: true });
+    }
+
+    function startDrawing(e, canvas, ctx) {
+      if (!isDoodleMode) return;
+      isDrawing = true;
+      
+      const rect = canvas.getBoundingClientRect();
+      lastX = e.clientX - rect.left;
+      lastY = e.clientY - rect.top;
+    }
+
+    function draw(e, canvas, ctx, side) {
+      if (!isDrawing || !isDoodleMode) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      
+      // Dynamic hand stroke styling
+      ctx.strokeStyle = penColor === '#1d4ed8' ? '#2563eb' : penColor; // slight opacity boost for drawings
+      ctx.lineWidth = 2.2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+
+      lastX = x;
+      lastY = y;
+    }
+
+    function stopDrawing(side) {
+      if (isDrawing) {
+        isDrawing = false;
+        // Auto-save drawing paths by spread index to prevent page wiping
+        saveCurrentPageDoodle();
+      }
+    }
+
+    function saveCurrentPageDoodle() {
+      // Save canvas state as dataURLs for current active spread
+      canvasHistories[`spread_${currentSpread}_left`] = currentLeftCanvas.toDataURL();
+      canvasHistories[`spread_${currentSpread}_right`] = currentRightCanvas.toDataURL();
+    }
+
+    function restoreCurrentPageDoodle() {
+      if (!currentLeftCtx || !currentRightCtx) return;
+
+      // Clear both pages first
+      currentLeftCtx.clearRect(0, 0, currentLeftCanvas.width, currentLeftCanvas.height);
+      currentRightCtx.clearRect(0, 0, currentRightCanvas.width, currentRightCanvas.height);
+
+      // Load saved tracks if they exist
+      const leftImgData = canvasHistories[`spread_${currentSpread}_left`];
+      const rightImgData = canvasHistories[`spread_${currentSpread}_right`];
+
+      if (leftImgData) {
+        const imgLeft = new Image();
+        imgLeft.src = leftImgData;
+        imgLeft.onload = () => currentLeftCtx.drawImage(imgLeft, 0, 0);
+      }
+
+      if (rightImgData) {
+        const imgRight = new Image();
+        imgRight.src = rightImgData;
+        imgRight.onload = () => currentRightCtx.drawImage(imgRight, 0, 0);
+      }
+    }
+
+    function clearCurrentDoodle() {
+      currentLeftCtx.clearRect(0, 0, currentLeftCanvas.width, currentLeftCanvas.height);
+      currentRightCtx.clearRect(0, 0, currentRightCanvas.width, currentRightCanvas.height);
+      
+      delete canvasHistories[`spread_${currentSpread}_left`];
+      delete canvasHistories[`spread_${currentSpread}_right`];
+    }
+
+    // ON SCREEN LOAD ENTRY POINT
+    window.onload = function() {
+      renderBinderHoles();
+      initPaperSelector();
+      initDoodlePads();
+      renderSpread();
+    };
+
+  </script>
+</body>
+</html>
