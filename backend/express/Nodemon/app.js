@@ -18,25 +18,6 @@ app.post("/", (req, res) => {
     res.send("You sent a POST request");
 });
 
-//Routing all - catch-all route (must be last)
-// app.get("*", (req, res) => {
-//     res.send("This path does not exist");
-// });
-
-// Request Params
-app.get("/:username/:id", (req, res) => {
-  let { username, id } = req.params;
-
-  res.send(`Welcome to page @${username}`);
-});
-
-// Request Query
-app.get("/search", (req, res) => {
-  let {q} = req.query;
-
-  res.send(`search results for query : ${q}`);
-})
-
 
 // Start Server
 app.listen(port, () => {
