@@ -1,0 +1,35 @@
+<%- include("includes/head.ejs") %>
+
+<body>
+    
+    <%- include("includes/navbar.ejs") %>
+
+    <div class="profile">
+        <h1>@<%= data.name %></h1>
+
+        <div class="stats">
+            <strong><%= data.followers %></strong> Followers |
+            <strong><%= data.following %></strong> Following
+        </div>
+    </div>
+
+    <h2>Posts</h2>
+
+    <div class="posts">
+        <% for(let post of data.posts) { %>
+            <div class="post">
+                <img src="<%= post.image %>" alt="post">
+
+                <div class="post-info">
+                    ❤️ <strong><%= post.likes %></strong> Likes
+                    <br>
+                    💬 <strong><%= post.comments %></strong> Comments
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <%- include("includes/footer.ejs") %>
+
+</body>
+</html>

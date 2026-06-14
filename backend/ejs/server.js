@@ -4,11 +4,24 @@ const path = require("path");
 
 const port = 3000;
 
+app.use(express.static(path.join(__dirname,"pubilc")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.get("/", (req, res) => {
     res.render("home");
+});
+
+app.get("/ig/:username", (req, res) => {
+    let { username } = req.params;
+  const instaData = require("./data.json")
+    let data = instaData[username];
+
+    if (data) {
+        res.render("instagram", { data });
+    } else {
+        res.send(`<h1>Account not found!</h1>`);
+    }
 });
 
 app.get("/rolldice", (req, res) => {
