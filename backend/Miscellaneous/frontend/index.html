@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GET & POST Requests</title>
+</head>
+<body>
+
+    <h1>Express GET & POST Example</h1>
+
+    <hr>
+
+    <h2>GET Request Form</h2>
+
+    <form action="http://localhost:8080/register" method="GET">
+
+        <label>Name:</label>
+        <input type="text" name="name" required>
+
+        <br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <br><br>
+
+        <button type="submit">Submit GET</button>
+
+    </form>
+
+    <hr>
+
+    <h2>POST Request Form</h2>
+
+    <form action="http://localhost:8080/register" method="POST">
+
+        <label>Username:</label>
+        <input type="text" name="username" required>
+
+        <br><br>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <button type="submit">Submit POST</button>
+
+    </form>
+  <script src="app.js"></script>
+</body>
+</html>
